@@ -1,15 +1,40 @@
 <div class="container">
   <h1>Details of <%= @restaurant.name %></h1>
-  <h3>Category:  <%= @restaurant.category %></h3>
-  <h3>Address:  <%= @restaurant.address %></h3>
-  <h3>Phone Number:  <%= @restaurant.phone_number %></h3>
-  <ul>
-    <% @restaurant.reviews.each do |review| %>
-      <li>
-        <%= review.content %>
-        <%= review.rating %>
-      </li>
-    <% end %>
-  </ul>
-  <%= link_to 'Add a review', new_restaurant_review_path(@restaurant), class: "btn btn-primary"   %>
+  <div class="card">
+    <div class="card-body">
+      <h3>Category:  <%= @restaurant.category %></h3>
+      <h3>Address:  <%= @restaurant.address %></h3>
+      <h3>Phone Number:
+        <% if @restaurant.phone_number != nil %>
+          <%= @restaurant.phone_number %>
+        <% else %>
+          <%= 'Not available' %>
+        <% end %>
+      </h3>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <h2 class="card-title">Reviews: </h2>
+        <% @restaurant.reviews.each do |review| %>
+          <li class="list-group-item">
+            <%= review.content %>
+            <br>
+            <%= '*' * review.rating %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Add a review: </h2>
+      <%= form_for [@restaurant, @restaurant.reviews.build] do |f| %>
+      Content: <%= f.text_area :content %>
+      Rating: <%= f.text_field :rating %>
+      <%= f.submit 'Create', class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
 </div>

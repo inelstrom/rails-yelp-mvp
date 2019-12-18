@@ -4,8 +4,8 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    review = Review.new(review_params)
-    review.save
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @review = @restaurant.reviews.create(review_params)
     redirect_to restaurant_path(@restaurant)
   end
 
